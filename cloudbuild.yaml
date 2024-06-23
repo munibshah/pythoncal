@@ -1,0 +1,3 @@
+options:
+  serviceAccount: 'projects/southern-list-427002-c2/serviceAccounts/mslab-36@southern-list-427002-c2.iam.gserviceaccount.com'
+  logging: 'CLOUD_LOGGING_ONLY'  # Or 'NONE' if no logging is required
