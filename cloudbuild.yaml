@@ -1,3 +1,30 @@
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/southern-list-427002-c2/pythoncal:$COMMIT_SHA', '.']
+
+  # Step 2: Push the Docker image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/southern-list-427002-c2/pythoncal:$COMMIT_SHA']
+
+  # Step 3: Deploy the Docker image to Google Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'pythoncal-service'
+      - '--image'
+      - 'gcr.io/southern-list-427002-c2/pythoncal:$COMMIT_SHA'
+      - '--region'
+      - 'us-east4'  # Note: Correct region code
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+# Images in Google Container Registry to be used for the build.
+images:
+  - 'gcr.io/southern-list-427002-c2/pythoncal:$COMMIT_SHA'
 options:
   serviceAccount: 'projects/southern-list-427002-c2/serviceAccounts/mslab-36@southern-list-427002-c2.iam.gserviceaccount.com'
   logging: 'CLOUD_LOGGING_ONLY'  # Or 'NONE' if no logging is required
