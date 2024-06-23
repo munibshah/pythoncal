@@ -5,6 +5,7 @@ from threading import Thread
 
 app = Flask(__name__)
 
+
 def wait_and_print(target_time):
     """ Waits until the target time and prints it. """
     now = datetime.datetime.utcnow()
